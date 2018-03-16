@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Awesome Image 2 Text Converter</string>
+    <string name="CameraButton">Camera</string>
+    <string name="GalleryButton">Gallery</string>
+    <string name="RateButton">Rate Us</string>
+</resources>

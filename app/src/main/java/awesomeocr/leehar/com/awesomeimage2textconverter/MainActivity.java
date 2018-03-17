@@ -1,39 +1,40 @@
 package awesomeocr.leehar.com.awesomeimage2textconverter;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 
 public class MainActivity extends AppCompatActivity {
     ImageView mImageView;
+    String mCurrentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /*if (savedInstanceState != null) {
+            if (mCurrentPhotoPath == null && savedInstanceState.getString("uri_file_path") != null) {
+                mCurrentPhotoPath = savedInstanceState.getString("uri_file_path");
+            }
+        }*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mImageView = findViewById(R.id.imageView);
     }
 
     public void onButtonClick(View view) {
-        dispatchTakePictureIntent();
+        CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(this);
+        //dispatchTakePictureIntent();
     }
 
-    static final int REQUEST_TAKE_PHOTO = 1;
+  /*  static final int REQUEST_TAKE_PHOTO = 1;
 
 
     private void dispatchTakePictureIntent() {
@@ -71,12 +72,13 @@ public class MainActivity extends AppCompatActivity {
                         "com.example.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
         }
     }
 
-    String mCurrentPhotoPath;
+   // String mCurrentPhotoPath;
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -85,9 +87,9 @@ public class MainActivity extends AppCompatActivity {
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+              //  ".jpg",         /* suffix */
+              //  storageDir      /* directory */
+      /*  );
 
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = "file:"+image.getAbsolutePath();
@@ -100,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 Bitmap mImageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(mCurrentPhotoPath));
                 mImageView.setImageBitmap(mImageBitmap);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -114,6 +117,24 @@ public class MainActivity extends AppCompatActivity {
         this.sendBroadcast(mediaScanIntent);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (mCurrentPhotoPath != null)
+            outState.putString("uri_file_path", mCurrentPhotoPath);
+        super.onSaveInstanceState(outState);
+    }
+*/
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+      if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+          CropImage.ActivityResult result = CropImage.getActivityResult(data);
+          if (resultCode == RESULT_OK) {
+              Uri resultUri = result.getUri();
+          } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+              Exception error = result.getError();
+          }
+      }
+  }
 
 }
 

@@ -5,14 +5,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 
 public class MainActivity extends AppCompatActivity {
-    ImageView mImageView;
+
     String mCurrentPhotoPath;
 
     @Override
@@ -24,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         }*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mImageView = findViewById(R.id.imageView);
+
     }
 
     public void onButtonClick(View view) {
@@ -77,27 +76,27 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
+*/
    // String mCurrentPhotoPath;
 
-    private File createImageFile() throws IOException {
+  /*  private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
-              //  ".jpg",         /* suffix */
-              //  storageDir      /* directory */
-      /*  );
+            //  ".jpg",         /* suffix */
+             // storageDir      /* directory */
+   /*   );
 
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = "file:"+image.getAbsolutePath();
         return image;
-    }
+    }*/
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+   // @Override
+    /*protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO  && resultCode == RESULT_OK) {
             try {
                 Bitmap mImageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(mCurrentPhotoPath));
@@ -108,33 +107,37 @@ public class MainActivity extends AppCompatActivity {
             }
             galleryAddPic();
         }
-    }
-    private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(mCurrentPhotoPath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        this.sendBroadcast(mediaScanIntent);
-    }
+    }*/
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
+
+    //@Override
+   /* protected void onSaveInstanceState(Bundle outState) {
         if (mCurrentPhotoPath != null)
             outState.putString("uri_file_path", mCurrentPhotoPath);
         super.onSaveInstanceState(outState);
-    }
-*/
+    }*/
+
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
       if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
           CropImage.ActivityResult result = CropImage.getActivityResult(data);
           if (resultCode == RESULT_OK) {
               Uri resultUri = result.getUri();
+              Intent intent =new Intent(this,PhotoDisplay.class);
+              intent.putExtra("imageUri", resultUri.toString());
+              startActivity(intent);
           } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
               Exception error = result.getError();
           }
       }
   }
+   /* private void galleryAddPic() {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(mCurrentPhotoPath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
+    }*/
 
 }
 

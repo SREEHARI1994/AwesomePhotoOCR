@@ -3,4 +3,11 @@
     <string name="CameraButton">Camera</string>
     <string name="GalleryButton">Gallery</string>
     <string name="RateButton">Rate Us</string>
+    <string name="Convert">Convert</string>
+    <string name="low_storage_error">Your Device doesn\'t have enough storage space available to download the OCR library.Free up space and try again </string>
+    <string name="copyButton">Copy</string>
+    <string name="share">Share</string>
+    <string name="shareToast">Scanned Text successfully copied to Clipboard </string>
+    <string name="lastButton">Try Again </string>
+
 </resources>

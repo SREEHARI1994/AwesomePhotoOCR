@@ -1,12 +1,11 @@
 package awesomeocr.leehar.com.awesomeimage2textconverter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
@@ -20,12 +19,12 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 //import android.support.v7.app.ActionBar;
 
 public class PhotoDisplay extends AppCompatActivity {
 Bitmap bitmap;
+String passUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,10 +33,12 @@ Bitmap bitmap;
         setSupportActionBar(myToolbar);
         ImageView  display=(ImageView)findViewById(R.id.display);
         Bundle extras = getIntent().getExtras();
-        Uri myUri = Uri.parse(extras.getString("imageUri"));
+        passUri=extras.getString("imageUri");
+        Uri myUri = Uri.parse(passUri);
+
         try {
-           // bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), myUri);
-            bitmap=decodeBitmapUri(this, myUri);
+             bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), myUri);
+            //bitmap=decodeBitmapUri(this, myUri);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -97,11 +98,12 @@ Bitmap bitmap;
         }
         Intent intent=new Intent(this,TextEdit.class);
         intent.putExtra("converted",imageText);
+        intent.putExtra("imageUri",passUri);
         startActivity(intent);
 
 
     }
-    private Bitmap decodeBitmapUri(Context ctx, Uri uri) throws FileNotFoundException {
+   /* private Bitmap decodeBitmapUri(Context ctx, Uri uri) throws FileNotFoundException {
         int targetW = 600;
         int targetH = 600;
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -116,5 +118,5 @@ Bitmap bitmap;
 
         return BitmapFactory.decodeStream(ctx.getContentResolver()
                 .openInputStream(uri), null, bmOptions);
-    }
+    }*/
 }

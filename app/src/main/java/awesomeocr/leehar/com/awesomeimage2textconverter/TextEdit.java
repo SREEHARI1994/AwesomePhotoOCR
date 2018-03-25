@@ -41,9 +41,10 @@ Uri taUri;
 
         displayText = intent.getExtras().getString("converted");
         //Bundle extras = getIntent().getExtras();
-        taUri = Uri.parse(intent.getExtras().getString("imageUri"));
+        taUri = Uri.parse(intent.getExtras().getString("imageUri3"));
         test.setText(displayText, TextView.BufferType.EDITABLE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home_white_36dp);
 
     }
     @Override
@@ -111,7 +112,7 @@ Uri taUri;
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
                 Intent intent =new Intent(this,PhotoDisplay.class);
-                intent.putExtra("imageUri", resultUri.toString());
+                intent.putExtra("imageUri2", resultUri.toString());
                 startActivity(intent);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();

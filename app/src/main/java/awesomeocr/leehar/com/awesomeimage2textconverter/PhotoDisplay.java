@@ -24,7 +24,7 @@ import java.io.IOException;
 
 public class PhotoDisplay extends AppCompatActivity {
 Bitmap bitmap;
-String passUri;
+String passUri3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +33,8 @@ String passUri;
         setSupportActionBar(myToolbar);
         ImageView  display=(ImageView)findViewById(R.id.display);
         Bundle extras = getIntent().getExtras();
-        passUri=extras.getString("imageUri");
-        Uri myUri = Uri.parse(passUri);
+        passUri3=extras.getString("imageUri2");
+        Uri myUri = Uri.parse(passUri3);
 
         try {
              bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), myUri);
@@ -92,13 +92,21 @@ String passUri;
 
         SparseArray<TextBlock> textBlocks = textRecognizer.detect(imageFrame);
 
-        for (int i = 0; i < textBlocks.size(); i++) {
+        /*for (int i = 0; i < textBlocks.size(); i++) {
             TextBlock textBlock = textBlocks.get(textBlocks.keyAt(i));
             imageText = textBlock.getValue();                   // return string
+        }*/
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i=0;i<textBlocks.size();i++) {
+            TextBlock item = textBlocks.valueAt(i);
+            stringBuilder.append(item.getValue());
+            stringBuilder.append("\n");
         }
         Intent intent=new Intent(this,TextEdit.class);
-        intent.putExtra("converted",imageText);
-        intent.putExtra("imageUri",passUri);
+       // intent.putExtra("converted",imageText);
+        intent.putExtra("converted",stringBuilder.toString());
+
+        intent.putExtra("imageUri3",passUri3);
         startActivity(intent);
 
 

@@ -1,11 +1,12 @@
 package awesomeocr.leehar.com.awesomeimage2textconverter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
@@ -19,6 +20,7 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 //import android.support.v7.app.ActionBar;
 
@@ -37,8 +39,8 @@ String passUri3;
         Uri myUri = Uri.parse(passUri3);
 
         try {
-             bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), myUri);
-            //bitmap=decodeBitmapUri(this, myUri);
+            // bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), myUri);
+            bitmap=decodeBitmapUri(this, myUri);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,7 +113,7 @@ String passUri3;
 
 
     }
-   /* private Bitmap decodeBitmapUri(Context ctx, Uri uri) throws FileNotFoundException {
+   private Bitmap decodeBitmapUri(Context ctx, Uri uri) throws FileNotFoundException {
         int targetW = 600;
         int targetH = 600;
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -126,5 +128,5 @@ String passUri3;
 
         return BitmapFactory.decodeStream(ctx.getContentResolver()
                 .openInputStream(uri), null, bmOptions);
-    }*/
+    }
 }

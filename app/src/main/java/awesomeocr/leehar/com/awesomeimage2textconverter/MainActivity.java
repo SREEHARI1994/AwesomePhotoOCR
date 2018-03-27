@@ -10,8 +10,13 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.view.View.OnClickListener;
+import android.widget.Button;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -22,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener{
 
     String mCurrentPhotoPath;
     File photoFile;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener{
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544/6300978111");
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         Button one = (Button) findViewById(R.id.button);
         one.setOnClickListener(this); // calling onClick() method
         Button two = (Button) findViewById(R.id.button2);
@@ -154,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener{
             File f = new File(mCurrentPhotoPath);
             Uri image = Uri.fromFile(f);
            // Uri image= data.getData();
-            Intent intent =new Intent(this,Choice.class);
+            Intent intent =new Intent(this,MainDisplay.class);
             intent.putExtra("imageUri", image.toString());
             startActivity(intent);
            /* try {
@@ -168,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener{
         }
           if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
               Uri urigallery = data.getData();
-              Intent intent2 =new Intent(this,Choice.class);
+              Intent intent2 =new Intent(this,MainDisplay.class);
               intent2.putExtra("imageUri", urigallery.toString());
               startActivity(intent2);
           }

@@ -12,5 +12,5 @@
     <string name="choice1">Simple scan </string>
     <string name="choice2">Edit and Scan </string>
     <string name="chtext">If at all the app fails to recognize all text in the image.Tap Try again Button to crop out the recognised region of image and get remaining part of text </string>
-
+    <string name="displayForward">Forward</string>
 </resources>

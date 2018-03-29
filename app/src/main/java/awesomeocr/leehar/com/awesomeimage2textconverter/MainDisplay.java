@@ -35,15 +35,12 @@ public class MainDisplay extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.forward_icon2:
-                // User chose the "Settings" item, show the app settings UI...
                 Intent chintent=new Intent(this,Choice.class);
                 chintent.putExtra("imageUriD",displayUri );
                 startActivity(chintent);
                 return true;
 
             default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
 
         }

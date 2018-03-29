@@ -38,14 +38,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener{
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544/6300978111");
+        MobileAds.initialize(this, "ca-app-pub-9549090787426255~9354952677");
 
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
         Button one = (Button) findViewById(R.id.button);
-        one.setOnClickListener(this); // calling onClick() method
+        one.setOnClickListener(this);
         Button two = (Button) findViewById(R.id.button2);
         two.setOnClickListener(this);
         Button three = (Button) findViewById(R.id.button3);
@@ -59,12 +59,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener{
         switch (v.getId()) {
 
             case R.id.button:
-                // do your code
                 dispatchTakePictureIntent();
                 break;
 
             case R.id.button2:
-                // do your code
                 Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 getIntent.setType("image/*");
 
@@ -78,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener{
                 break;
 
             case R.id.button3:
-                // do your code
                 Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=awesomeocr.leehar.com.awesomeimage2textconverter");
 
                 Intent intentR = new Intent(Intent.ACTION_VIEW, uri);
@@ -90,46 +87,33 @@ public class MainActivity extends AppCompatActivity implements OnClickListener{
         }
 
     }
-    /*public void onButtonClick(View view) {
-        CropImage.activity()
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(this);
-        //dispatchTakePictureIntent();
-    }*/
+
 
    static final int REQUEST_TAKE_PHOTO = 1;
 
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
             photoFile = null;
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
-                // Error occurred while creating the File
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(
                         MainActivity.this);
 
-                // Setting Dialog Title
                 alertDialog.setTitle("Error");
 
-                // Setting Dialog Message
                 alertDialog.setMessage("Not able to save photo.Check if Storage space is available");
 
-                // Setting Icon to Dialog
 
-                // Setting OK Button
+
                 alertDialog.setNeutralButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // Write your code here to execute after dialog closed
                         dialog.cancel();
                     }
                 });
             }
-            // Continue only if the File was successfully created
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
@@ -141,20 +125,17 @@ public class MainActivity extends AppCompatActivity implements OnClickListener{
         }
     }
 
-    //String mCurrentPhotoPath;
 
     private File createImageFile() throws IOException {
-        // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
-                imageFileName,  /* prefix */
-             ".jpg",         /* suffix */
-             storageDir      /* directory */
+                imageFileName,
+             ".jpg",
+             storageDir
      );
 
-        // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
@@ -162,21 +143,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener{
       @Override
       protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO  && resultCode == RESULT_OK) {
-            //Uri image=Uri.parse(mCurrentPhotoPath);
             File f = new File(mCurrentPhotoPath);
             Uri image = Uri.fromFile(f);
-           // Uri image= data.getData();
             Intent intent =new Intent(this,MainDisplay.class);
             intent.putExtra("imageUri", image.toString());
             startActivity(intent);
-           /* try {
-                //Bitmap mImageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(mCurrentPhotoPath));
-               // mImageView.setImageBitmap(mImageBitmap);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
-          //  galleryAddPic();
         }
           if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
               Uri urigallery = data.getData();
@@ -195,27 +167,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener{
         super.onSaveInstanceState(outState);
     }
 
- /* @Override
-  public void onActivityResult(int requestCode, int resultCode, Intent data) {
-      if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-          CropImage.ActivityResult result = CropImage.getActivityResult(data);
-          if (resultCode == RESULT_OK) {
-              Uri resultUri = result.getUri();
-              Intent intent =new Intent(this,PhotoDisplay.class);
-              intent.putExtra("imageUri", resultUri.toString());
-              startActivity(intent);
-          } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-              Exception error = result.getError();
-          }
-      }
-  }*/
-  /*private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(mCurrentPhotoPath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        this.sendBroadcast(mediaScanIntent);
-    }*/
 
 }
 
